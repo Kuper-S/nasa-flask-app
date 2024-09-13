@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>NASA APOD Explorer</title>
+</head>
+<body>
+    <h1>Welcome to the NASA APOD Explorer</h1>
+    <p>Explore NASA's Astronomy Picture of the Day (APOD) and save your favorite images.</p>
+    
+    <button onclick="window.location.href='/apod'">View Today's Astronomy Picture</button>
+    
+    <h2>Your Favorite Pictures</h2>
+    {% if favorites %}
+        <div class="favorites-container">
+            {% for fav in favorites %}
+            <div class="favorite-card">
+                <img src="{{ fav.url }}" alt="{{ fav.title }}">
+                <h3>{{ fav.title }}</h3>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>You have no favorite pictures yet. Save your favorites by clicking "Add to Favorites" on the APOD page.</p>
+    {% endif %}
+    <button onclick="window.location.href='/favorites'">View Favorite Pictures</button>
+    <button onclick="window.location.href='/apod'">Return to Current Image</button>
+</body>
+</html>

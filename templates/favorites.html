@@ -1,0 +1,18 @@
+<div class="container">
+    <h2>Your Favorite Pictures</h2>
+    <div class="favorites-container">
+        <button onclick="window.location.href='/'">Return to Home</button>
+        {% if favorites %}
+            {% for fav in favorites %}
+            <div class="favorite-card">
+                <img src="{{ fav.url }}" alt="{{ fav.title }}">
+                <h3>{{ fav.title }}</h3>
+                
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No favorite pictures yet.</p>
+        {% endif %}
+        
+    </div>
+</div>

@@ -1,0 +1,56 @@
+body {
+    background-color: #1a1a1a;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+h1 {
+    color: #c9a0dc; /* Light Purple */
+}
+
+p {
+    color: #f0f0f0; /* Light White */
+    margin: 20px 0;
+}
+
+img {
+    max-width: 50%; /* Resize the image */
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    margin: 20px 0;
+}
+
+button {
+    background-color: #6a0dad; /* Dark Purple */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+button:hover {
+    background-color: #8a2be2; /* Lighter Purple */
+}
+
+form {
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+footer {
+    color: #999;
+    margin-top: 40px;
+    font-size: 0.9em;
+}

@@ -1,0 +1,21 @@
+<div class="container">
+    <h2>Last Seen Images</h2>
+    <div class="card-container">
+        {% for image in last_seen %}
+        <div class="card">
+            <img src="{{ image.url }}" alt="{{ image.title }}">
+            <h3>{{ image.title }}</h3>
+            <p>{{ image.explanation }}</p>
+            <form action="/favorites" method="POST">
+                <input type="hidden" name="url" value="{{ image.url }}">
+                <input type="hidden" name="title" value="{{ image.title }}">
+                <button type="submit">Save to Favorites</button>
+            </form>
+            <form action="/last-seen/delete" method="POST">
+                <input type="hidden" name="url" value="{{ image.url }}">
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</div>

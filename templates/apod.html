@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>{{ apod['title'] }}</title>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ apod['title'] }}</h1>
+        <p>{{ apod['date'] }}</p>
+        <img src="{{ apod['url'] }}" alt="{{ apod['title'] }}">
+        <p>{{ apod['explanation'] }}</p>
+        <button onclick="window.location.href='/favorites'">View Favorite Pictures</button>
+        <form action="/favorites" method="POST">
+            <input type="hidden" name="url" value="{{ apod['url'] }}">
+            <input type="hidden" name="title" value="{{ apod['title'] }}">
+            <button type="submit">Add to Favorites</button>
+            
+            
+        </form>
+        <button onclick="window.location.href='/'">Return to Home</button>
+    </div>
+    <footer>
+        <p>© NASA APOD Explorer</p>
+    </footer>
+</body>
+</html>
