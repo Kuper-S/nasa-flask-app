@@ -44,10 +44,10 @@ jobs:
 
       - name: Clone the Helm Chart repository
         run: |
-          git clone https://github.com/<username>/nasa-helm-charts.git
+          git clone https://github.com/Kuper-S/nasa-helm-charts.git
           cd nasa-helm-charts
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.HELM_REPO_TOKEN }}
 
       - name: Update Docker Image Version in Helm Chart
         run: |
