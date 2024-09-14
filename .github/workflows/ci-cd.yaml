@@ -26,12 +26,12 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t $DOCKER_USERNAME/nasa-flask-app:latest -t $DOCKER_USERNAME/nasa-flask-app:$NEW_VERSION .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/nasa-flask-app:latest -t ${{ secrets.DOCKER_USERNAME }}/nasa-flask-app:$NEW_VERSION .
 
       - name: Push Docker image
         run: |
-          docker push $DOCKER_USERNAME/nasa-flask-app:latest
-          docker push $DOCKER_USERNAME/nasa-flask-app:$NEW_VERSION
+          docker push ${{ secrets.DOCKER_USERNAME }}/nasa-flask-app:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/nasa-flask-app:$NEW_VERSION
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
@@ -53,3 +53,22 @@ jobs:
         run: |
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
           git config --global user.name "${{ github.actor }}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
