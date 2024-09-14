@@ -42,12 +42,21 @@ jobs:
           sudo wget https://github.com/mikefarah/yq/releases/download/v4.9.6/yq_linux_amd64 -O /usr/bin/yq
           sudo chmod +x /usr/bin/yq
 
+      - name: Clone the Helm Chart repository
+        run: |
+          git clone https://github.com/<username>/nasa-helm-charts.git
+          cd nasa-helm-charts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Update Docker Image Version in Helm Chart
         run: |
-          yq e '.image.tag = env(NEW_VERSION)' -i ./nasa-helm-charts/values.yaml
+          yq e '.image.tag = env(NEW_VERSION)' -i ./values.yaml
           git add .
           git commit -m "Update image tag to $NEW_VERSION"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure Git
         run: |
