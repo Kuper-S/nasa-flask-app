@@ -49,9 +49,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.HELM_REPO_TOKEN }}
 
+      - name: Find the values.yaml file
+        id: find_values_file
+        run: |
+          # Find the values.yaml file in the cloned repo
+          VALUES_FILE=$(find ./nasa-helm-charts -name values.yaml)
+          echo "VALUES_FILE_PATH=$VALUES_FILE" >> $GITHUB_ENV
+
+
       - name: Update Docker Image Version in Helm Chart
         run: |
-          yq e '.image.tag = env(NEW_VERSION)' -i /nasa-helm-charts/values.yaml
+          yq e '.image.tag = env(NEW_VERSION)' -i ./values.yaml
           git add .
           git commit -m "Update image tag to $NEW_VERSION"
           git push
