@@ -1,0 +1,55 @@
+name: CI/CD Pipeline for NASA Flask App
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Set Docker image version (using Git commit hash)
+        id: set_version
+        run: |
+          GIT_COMMIT_HASH=$(git rev-parse --short HEAD)
+          echo "NEW_VERSION=$GIT_COMMIT_HASH" >> $GITHUB_ENV
+
+      - name: Log in to Docker Hub
+        run: |
+          echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Build Docker image
+        run: |
+          docker build -t $DOCKER_USERNAME/nasa-flask-app:latest -t $DOCKER_USERNAME/nasa-flask-app:$NEW_VERSION .
+
+      - name: Push Docker image
+        run: |
+          docker push $DOCKER_USERNAME/nasa-flask-app:latest
+          docker push $DOCKER_USERNAME/nasa-flask-app:$NEW_VERSION
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Install yq
+        run: |
+          sudo apt-get update && sudo apt-get install -y jq
+          sudo wget https://github.com/mikefarah/yq/releases/download/v4.9.6/yq_linux_amd64 -O /usr/bin/yq
+          sudo chmod +x /usr/bin/yq
+
+      - name: Update Docker Image Version in Helm Chart
+        run: |
+          yq e '.image.tag = env(NEW_VERSION)' -i ./nasa-helm-charts/values.yaml
+          git add .
+          git commit -m "Update image tag to $NEW_VERSION"
+          git push
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --global user.name "${{ github.actor }}"
