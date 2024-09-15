@@ -44,17 +44,11 @@ jobs:
 
       - name: Clone the Helm Chart repository
         run: |
-          git clone https://github.com/Kuper-S/nasa-helm-charts.git
+          #git clone https://github.com/Kuper-S/nasa-helm-charts.git
+          git clone -c user.name="CI Bot" -c user.email="ci-bot@example.com" https://github.com/Kuper-S/nasa-helm-charts.git
           cd nasa-helm-charts
         env:
           GITHUB_TOKEN: ${{ secrets.HELM_REPO_TOKEN }}
-
-      - name: Find the values.yaml file
-        id: find_values_file
-        run: |
-          # Find the values.yaml file in the cloned repo
-          VALUES_FILE=$(find ./nasa-helm-charts -name values.yaml)
-          echo "VALUES_FILE_PATH=$VALUES_FILE" >> $GITHUB_ENV
 
 
       - name: Update Docker Image Version in Helm Chart
@@ -66,14 +60,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Configure Git
+
+      - name: Commit and Push Helm Chart Changes
         run: |
-          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
-          git config --global user.name "${{ github.actor }}"
-
-
-
-
+          git commit -m "Update image tag to $NEW_VERSION"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
 
