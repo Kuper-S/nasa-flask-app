@@ -16,3 +16,4 @@ Werkzeug==3.0.4
 prometheus_flask_exporter==0.23.1
 prometheus_client==0.20.0
 kafka-python==2.0.2
+setuptools>=65.5.1
