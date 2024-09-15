@@ -53,16 +53,16 @@ jobs:
 
       - name: Update Docker Image Version in Helm Chart
         run: |
-          pwd
-          ls -la
-          yq eval '.image.tag = env(NEW_VERSION)' -i ./values.yaml
-          git add .
+          cd nasa-helm-charts  # Move into the correct repo
+          VALUES_FILE=$(find . -name "values.yaml")  # Find the values.yaml file
+          echo "Updating image tag in $VALUES_FILE to $NEW_VERSION"
+          yq e '.image.tag = strenv(NEW_VERSION)' -i $VALUES_FILE  # Update the image tag
+          git add $VALUES_FILE
           git commit -m "Update image tag to $NEW_VERSION"
           git push
         env:
           NEW_VERSION: ${{ env.NEW_VERSION }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 
       - name: Commit and Push Helm Chart Changes
         run: |
