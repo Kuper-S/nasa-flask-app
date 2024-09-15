@@ -57,9 +57,11 @@ jobs:
           VALUES_FILE=$(find . -name "values.yaml")  # Find the values.yaml file
           echo "Updating image tag in $VALUES_FILE to $NEW_VERSION"
           yq e '.image.tag = strenv(NEW_VERSION)' -i $VALUES_FILE  # Update the image tag
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
           git add $VALUES_FILE
           git commit -m "Update image tag to $NEW_VERSION"
-          git push
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Kuper-S/nasa-helm-charts.git
         env:
           NEW_VERSION: ${{ env.NEW_VERSION }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
