@@ -48,31 +48,29 @@ jobs:
           git clone -c user.name="CI Bot" -c user.email="ci-bot@example.com" https://github.com/Kuper-S/nasa-helm-charts.git
           cd nasa-helm-charts
         env:
-          GITHUB_TOKEN: ${{ secrets.HELM_REPO_TOKEN }}
-
+          HELM_REPO_TOKEN: ${{ secrets.HELM_REPO_TOKEN }}
 
       - name: Update Docker Image Version in Helm Chart
         run: |
           cd nasa-helm-charts  # Move into the correct repo
-          ls -la
           VALUES_FILE=$(find . -name "values.yaml")  # Find the values.yaml file
           echo "Updating image tag in $VALUES_FILE to $NEW_VERSION"
           yq e '.image.tag = strenv(NEW_VERSION)' -i $VALUES_FILE  # Update the image tag
-          git config user.name "GitHub Action"
-          git config user.email "action@github.com"
+          git config user.name "CI Bot"
+          git config user.email "ci-bot@example.com"
           git add $VALUES_FILE
           git commit -m "Update image tag to $NEW_VERSION"
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Kuper-S/nasa-helm-charts.git
+          git push https://x-access-token:${{ secrets.HELM_REPO_TOKEN }}@github.com/Kuper-S/nasa-helm-charts.git
         env:
           NEW_VERSION: ${{ env.NEW_VERSION }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HELM_REPO_TOKEN: ${{ secrets.HELM_REPO_TOKEN }}
 
       - name: Commit and Push Helm Chart Changes
         run: |
           git commit -m "Update image tag to $NEW_VERSION"
           git push
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HELM_REPO_TOKEN: ${{ secrets.HELM_REPO_TOKEN }}
 
 
 
