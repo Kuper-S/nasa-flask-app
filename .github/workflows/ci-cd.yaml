@@ -18,6 +18,7 @@ jobs:
         id: set_version
         run: |
           GIT_COMMIT_HASH=$(git rev-parse --short HEAD)
+          VERSION="1.0.${GIT_COMMIT_HASH}"
           echo "NEW_VERSION=$GIT_COMMIT_HASH" >> $GITHUB_ENV
 
       - name: Log in to Docker Hub
@@ -67,14 +68,6 @@ jobs:
         env:
           NEW_VERSION: ${{ env.NEW_VERSION }}
           HELM_REPO_TOKEN: ${{ secrets.HELM_REPO_TOKEN }}
-
-      - name: Commit and Push Helm Chart Changes
-        run: |
-          git commit -m "Update image tag to $NEW_VERSION"
-          git push
-        env:
-          HELM_REPO_TOKEN: ${{ secrets.HELM_REPO_TOKEN }}
-
 
 
 
