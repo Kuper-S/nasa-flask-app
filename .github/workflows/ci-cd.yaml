@@ -56,8 +56,11 @@ jobs:
           VALUES_FILE=$(find . -name "values.yaml")  # Find the values.yaml file
           echo "Updating image tag in $VALUES_FILE to $NEW_VERSION"
           yq e '.image.tag = strenv(NEW_VERSION)' -i $VALUES_FILE  # Update the image tag
+
+          # Configure Git user information for committing
           git config user.name "CI Bot"
           git config user.email "ci-bot@example.com"
+
           git add $VALUES_FILE
           git commit -m "Update image tag to $NEW_VERSION"
           git push https://x-access-token:${{ secrets.HELM_REPO_TOKEN }}@github.com/Kuper-S/nasa-helm-charts.git
