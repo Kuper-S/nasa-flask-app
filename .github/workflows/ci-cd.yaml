@@ -54,6 +54,7 @@ jobs:
       - name: Update Docker Image Version in Helm Chart
         run: |
           cd nasa-helm-charts  # Move into the correct repo
+          ls -la
           VALUES_FILE=$(find . -name "values.yaml")  # Find the values.yaml file
           echo "Updating image tag in $VALUES_FILE to $NEW_VERSION"
           yq e '.image.tag = strenv(NEW_VERSION)' -i $VALUES_FILE  # Update the image tag
