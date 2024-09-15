@@ -53,11 +53,13 @@ jobs:
 
       - name: Update Docker Image Version in Helm Chart
         run: |
-          yq e '.image.tag = env(NEW_VERSION)' -i $VALUES_FILE_PATH
-          git add .
+          yq e '.image.tag = strenv(NEW_VERSION)' -i $VALUES_FILE_PATH
+          git add $VALUES_FILE_PATH
           git commit -m "Update image tag to $NEW_VERSION"
           git push
         env:
+          NEW_VERSION: ${{ env.NEW_VERSION }}
+          VALUES_FILE_PATH: ${{ env.VALUES_FILE_PATH }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
