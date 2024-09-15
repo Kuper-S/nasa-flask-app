@@ -19,6 +19,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Stage 2: Final lightweight image
 FROM python:3.9-alpine
 
+# Install shadow package to enable useradd and groupadd
+RUN apk add --no-cache shadow
+
 # Create non-root user and group in the final image
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 
