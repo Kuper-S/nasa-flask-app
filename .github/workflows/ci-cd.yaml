@@ -39,7 +39,7 @@ jobs:
       - name: Run Trivy Image Scan
         run: |
           trivy image --exit-code 1 --severity HIGH,CRITICAL ${{ secrets.DOCKER_USERNAME }}/nasa-flask-app:$NEW_VERSION
-        continue-on-error: fals
+        continue-on-error: false
 
       - name: Push Docker image
         run: |
