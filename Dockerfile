@@ -1,33 +1,44 @@
-# Base image: using debian-slim-bookworm for more security or consider distroless
-FROM python:3.9-slim-bookworm
+# Stage 1: Build dependencies
+FROM python:3.9-slim-bullseye AS builder
 
-# Set labels and non-root user
+# Set labels
 LABEL maintainer="Super-Kuper" version="1.0.0"
+
+# Create non-root user and group
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 
 # Set working directory
 WORKDIR /app
 
-# Install essential tools and upgrade system packages
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    libpq-dev \
-    curl \
-    && apt-get upgrade -y \
-    && rm -rf /var/lib/apt/lists/*
+# Copy only the requirements to leverage Docker layer caching
+COPY requirements.txt .
 
-# Copy requirements and install dependencies with pinned versions
-COPY requirements.txt ./
-RUN pip install --upgrade pip \
-    && pip install --no-cache-dir -r requirements.txt \
-    && pip install --no-cache-dir gunicorn
+# Install dependencies without cache
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
+# Stage 2: Final lightweight image
+FROM python:3.9-alpine
+
+# Create non-root user and group in the final image
+RUN groupadd -r appuser && useradd -r -g appuser appuser
+
+# Set working directory
+WORKDIR /app
+
+# Copy necessary dependencies from the builder stage
+COPY --from=builder /usr/local/lib/python3.9/site-packages /usr/local/lib/python3.9/site-packages
+
+# Copy the application code from the host to the container
 COPY . .
 
-# Set ownership and switch to non-root user
+# Set the proper ownership of the files for the non-root user
 RUN chown -R appuser:appuser /app
+
+# Switch to non-root user
 USER appuser
 
-# Run Gunicorn
+# Expose the application port
+EXPOSE 5000
+
+# Command to run the app with Gunicorn
 CMD ["gunicorn", "-w", "1", "-b", "0.0.0.0:5000", "app:app"]
