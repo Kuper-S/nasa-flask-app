@@ -30,6 +30,7 @@ WORKDIR /app
 
 # Copy necessary dependencies from the builder stage
 COPY --from=builder /usr/local/lib/python3.9/site-packages /usr/local/lib/python3.9/site-packages
+COPY --from=builder /usr/local/bin/gunicorn /usr/local/bin/gunicorn
 
 # Copy the application code from the host to the container
 COPY . .
