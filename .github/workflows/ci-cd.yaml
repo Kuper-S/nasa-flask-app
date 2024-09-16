@@ -29,7 +29,6 @@ jobs:
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/nasa-flask-app:latest -t ${{ secrets.DOCKER_USERNAME }}/nasa-flask-app:$NEW_VERSION .
 
-      # Add Trivy scanning step before pushing the image
       - name: Install Trivy
         run: |
           sudo apt-get install wget
