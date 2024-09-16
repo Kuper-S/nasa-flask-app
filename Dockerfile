@@ -14,7 +14,7 @@ WORKDIR /app
 COPY requirements.txt .
 
 # Install dependencies without cache
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && pip install gunicorn
 
 # Stage 2: Final lightweight image
 FROM python:3.9-alpine
