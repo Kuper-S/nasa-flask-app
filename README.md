@@ -1,137 +1,202 @@
-NASA Flask App
-Overview
-The NASA Flask App is a simple web application designed to showcase data from NASA's public APIs. This project integrates Flask, a micro web framework for Python, to serve dynamic content, process API responses, and provide a clean and user-friendly interface for users to explore NASA-related data.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NASA Flask App CI/CD Pipeline</title>
+</head>
+<body>
 
-This repository contains all the necessary files for building and deploying the app using Docker and Kubernetes. The application includes a Horizontal Pod Autoscaler (HPA) setup, an ingress controller for routing, and is optimized for high availability and scaling in Kubernetes.
+  <h1>NASA Flask App CI/CD Pipeline</h1>
 
-Table of Contents
-Features
-Requirements
-Installation
-Running the Application
-Kubernetes Deployment
-CI/CD Integration
-Testing
-Contributing
-License
-Features
-NASA Data Fetching: The application connects to NASA's public APIs to retrieve various datasets, such as images, Mars rover data, and more.
-Flask Framework: Built on the Flask framework for flexibility and simplicity.
-Gunicorn Server: Gunicorn is used as the production server for handling multiple requests efficiently.
-Docker & Kubernetes Ready: Packaged as a Docker container and ready to be deployed on a Kubernetes cluster with auto-scaling, ingress, and service management.
-Horizontal Pod Autoscaling (HPA): Adjusts the number of pods in the Kubernetes cluster based on CPU utilization.
-API First: The app serves JSON responses as well as a web interface.
-Requirements
-To run the application, you need the following:
+  <h2>Introduction</h2>
+  <p>The NASA Flask App is a web application built using the Flask framework to fetch and display data from NASA's public APIs. This app is containerized using Docker and designed for deployment in a Kubernetes environment with integrated scaling, service discovery, and network policies. It also supports continuous integration and continuous deployment (CI/CD) with tools such as Jenkins, SonarQube, and ArgoCD.</p>
 
-Python 3.9+
-Flask: A lightweight WSGI web application framework.
-Docker: Containerize the application for ease of deployment.
-Kubernetes: Orchestrates and manages the deployment, scaling, and operations of the app.
-kubectl: Command-line interface for running commands against Kubernetes clusters.
-Helm: Used for managing Kubernetes applications.
-ArgoCD (optional): For automated deployment and GitOps-based workflows.
-External Libraries:
+  <h2>Features</h2>
+  <ul>
+    <li>API Integration: Fetches data from NASA's public APIs.</li>
+    <li>Flask Web Framework: Lightweight and simple web server.</li>
+    <li>Gunicorn for Production: Used as a WSGI HTTP Server for Flask in production.</li>
+    <li>Dockerized: Built as a Docker image for portability and scalability.</li>
+    <li>Kubernetes-Ready: Contains manifests for Kubernetes deployment, auto-scaling, and service discovery.</li>
+    <li>CI/CD: Integrated with Jenkins and ArgoCD for automated testing and deployment.</li>
+    <li>Horizontal Pod Autoscaler (HPA): Automatically scales the app based on CPU utilization.</li>
+  </ul>
 
-Requests
-pymongo
-prometheus-flask-exporter (for Prometheus metrics)
-Installation
-Clone the Repository
+  <h2>Prerequisites</h2>
+  <ul>
+    <li>Kubernetes Cluster: A running Kubernetes cluster (e.g., Minikube, EKS, or GKE).</li>
+    <li>Docker: Installed locally for containerization.</li>
+    <li>kubectl: CLI for interacting with Kubernetes.</li>
+    <li>Helm: For managing Kubernetes applications.</li>
+    <li>Metrics Server: For HPA functionality in Kubernetes.</li>
+    <li>GitHub Account: For CI/CD pipelines and GitOps with ArgoCD.</li>
+    <li>ArgoCD: Installed and configured for continuous deployment.</li>
+    <li>SonarQube: For static code analysis (optional but recommended).</li>
+    <li>AWS CLI: Configured if deploying on AWS.</li>
+    <li>Terraform: Installed for infrastructure provisioning.</li>
+  </ul>
 
+  <h2>Project Structure</h2>
+  <pre>
+    ├── app/                  # Application source code
+    ├── Dockerfile             # Dockerfile for building the image
+    ├── helm/                  # Helm charts for Kubernetes deployment
+    ├── .circleci/             # CircleCI pipeline configuration
+    ├── .github/workflows/     # GitHub Actions workflows
+    ├── requirements.txt       # Python dependencies
+    └── README.md              # Project documentation
+  </pre>
 
-git clone https://github.com/your-username/nasa-flask-app.git
-cd nasa-flask-app
-Set Up Virtual Environment (Optional)
+  <h2>Setup Instructions</h2>
 
+  <h3>1. Clone the Repository</h3>
+  <pre>
+    git clone https://github.com/your-username/nasa-flask-app.git
+    cd nasa-flask-app
+  </pre>
 
-python3 -m venv venv
-source venv/bin/activate
-Install Dependencies
-Install the required Python libraries from the requirements.txt file.
+  <h3>2. Install Dependencies</h3>
+  <pre>
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+  </pre>
 
+  <h3>3. Build Docker Image</h3>
+  <pre>
+    docker build -t nasa-flask-app:latest .
+  </pre>
 
+  <h3>4. Run Locally with Docker</h3>
+  <pre>
+    docker run -p 5000:5000 nasa-flask-app:latest
+  </pre>
 
-pip install -r requirements.txt
-Running the Application
-Running Locally
-Set environment variables (optionally using .env files).
+  <h2>CI/CD Integration</h2>
+  <p>CircleCI configuration is defined in `.circleci/config.yml` with jobs for building Docker images, running tests, and deploying the application.</p>
 
-Copy .env.example to .env and modify accordingly.
-Run the Flask App:
+  <h2>Kubernetes Deployment</h2>
 
+  <h3>Deploy with Helm</h3>
+  <pre>
+    helm install nasa-flask-app ./helm
+  </pre>
 
+  <h3>Verify the Deployment</h3>
+  <pre>
+    kubectl get pods
+  </pre>
 
-flask run
-This starts the app on http://localhost:5000.
+  <h2>Static Code Analysis</h2>
+  <p>SonarQube is integrated for static code analysis. Install it using Helm and access the dashboard via port-forwarding.</p>
 
-Docker
-Build the Docker Image:
+  <h2>Contributing</h2>
+  <p>To contribute, fork the repository, create a new branch, commit changes, and submit a pull request.</p>
 
+  <h2>License</h2>
+  <p>This project is licensed under the MITSure! Here's the README file formatted in **HTML**:
 
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA Flask App CI/CD Pipeline</title>
+</head>
+<body>
+    <h1>NASA Flask App CI/CD Pipeline</h1>
 
-docker build -t nasa-flask-app .
-Run the Docker Container:
+    <h2>Introduction</h2>
+    <p>
+        The NASA Flask App is a web application built using the Flask framework to fetch and display data from NASA's public APIs. 
+        This app is containerized using Docker and designed for deployment in a Kubernetes environment with integrated scaling, service discovery, 
+        and network policies. It also supports continuous integration and continuous deployment (CI/CD) with tools such as Jenkins, SonarQube, and ArgoCD.
+    </p>
 
+    <h2>Features</h2>
+    <ul>
+        <li>API Integration: Fetches data from NASA's public APIs.</li>
+        <li>Flask Web Framework: Lightweight and simple web server.</li>
+        <li>Gunicorn for Production: Used as a WSGI HTTP Server for Flask in production.</li>
+        <li>Dockerized: Built as a Docker image for portability and scalability.</li>
+        <li>Kubernetes-Ready: Contains manifests for Kubernetes deployment, auto-scaling, and service discovery.</li>
+        <li>CI/CD: Integrated with Jenkins and ArgoCD for automated testing and deployment.</li>
+        <li>Horizontal Pod Autoscaler (HPA): Automatically scales the app based on CPU utilization.</li>
+    </ul>
 
+    <h2>Prerequisites</h2>
+    <ul>
+        <li>Kubernetes Cluster: A running Kubernetes cluster (e.g., Minikube, EKS, or GKE).</li>
+        <li>Docker: Installed locally for containerization.</li>
+        <li>kubectl: CLI for interacting with Kubernetes.</li>
+        <li>Helm: For managing Kubernetes applications.</li>
+        <li>Metrics Server: For HPA functionality in Kubernetes.</li>
+        <li>GitHub Account: For CI/CD pipelines and GitOps with ArgoCD.</li>
+        <li>SonarQube: For static code analysis (optional but recommended).</li>
+        <li>AWS CLI: Configured if deploying on AWS.</li>
+        <li>Terraform: Installed for infrastructure provisioning.</li>
+    </ul>
 
-docker run -p 5000:5000 nasa-flask-app
-The application will be accessible at http://localhost:5000.
+    <h2>Project Structure</h2>
+    <pre>
+        ├── app/                  # Application source code
+        ├── Dockerfile             # Dockerfile for building the image
+        ├── helm/                  # Helm charts for Kubernetes deployment
+        ├── .circleci/             # CircleCI pipeline configuration
+        ├── .github/workflows/     # GitHub Actions workflows
+        ├── requirements.txt       # Python dependencies
+        └── README.md              # Project documentation
+    </pre>
 
-Kubernetes Deployment
-Prerequisites
-A running Kubernetes cluster (e.g., Minikube, AWS EKS, GKE).
-kubectl and Helm installed on your local machine.
-Metrics Server deployed in the cluster for HPA.
-Deploying with Helm
-Add Helm Repository:
+    <h2>Setup Instructions</h2>
 
+    <h3>1. Clone the Repository</h3>
+    <pre>
+    git clone https://github.com/your-username/nasa-flask-app.git
+    cd nasa-flask-app
+    </pre>
 
+    <h3>2. Install Dependencies</h3>
+    <pre>
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+    </pre>
 
-helm repo add nasa-flask-app https://charts.yourdomain.com
-helm repo update
-Install the Application:
+    <h3>3. Build Docker Image</h3>
+    <pre>
+    docker build -t nasa-flask-app:latest .
+    </pre>
 
+    <h3>4. Run Locally with Docker</h3>
+    <pre>
+    docker run -p 5000:5000 nasa-flask-app:latest
+    </pre>
 
+    <h2>CI/CD Integration</h2>
+    <p>CircleCI configuration is defined in `.circleci/config.yml` with jobs for building Docker images, running tests, and deploying the application.</p>
 
-helm install nasa-flask-app nasa-flask-app/nasa-flask-app-chart
-Access the App: If using Minikube, you can access the app via the ingress at http://<minikube-ip>.
+    <h2>Kubernetes Deployment</h2>
 
-Horizontal Pod Autoscaler (HPA)
-The app comes with HPA pre-configured. It automatically scales based on CPU utilization.
+    <h3>Deploy with Helm</h3>
+    <pre>
+    helm install nasa-flask-app ./helm
+    </pre>
 
-To check the HPA:
+    <h3>Verify the Deployment</h3>
+    <pre>
+    kubectl get pods
+    </pre>
 
+    <h2>Static Code Analysis</h2>
+    <p>SonarQube is integrated for static code analysis. Install it using Helm and access the dashboard via port-forwarding.</p>
 
+    <h2>Contributing</h2>
+    <p>To contribute, fork the repository, create a new branch, commit changes, and submit a pull request.</p>
 
-kubectl get hpa
-CI/CD Integration
-This project integrates with ArgoCD for continuous deployment. By committing changes to the Git repository, ArgoCD will automatically sync and deploy the changes to the Kubernetes cluster.
-
-For CI pipelines, consider using GitHub Actions or Jenkins for static code analysis (SonarQube), vulnerability scans (Trivy), and automated testing.
-
-Testing
-To ensure the app works as expected, you can use Flask’s built-in testing framework along with other tools like pytest:
-
-Run Unit Tests:
-
-
-
-pytest
-Test Endpoints with Curl:
-
-
-
-curl http://localhost:5000/api/data
-Contributing
-Fork the repository.
-Create a new branch.
-Submit a pull request.
-All contributions are welcome. For more information, check the CONTRIBUTING.md file.
-
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-Additional Notes
-SonarQube: This project integrates SonarQube for static code analysis. Ensure the SonarQube server is running, and configure the sonar-project.properties file for correct analysis.
-Trivy: Security scanning is integrated using Trivy to check for vulnerabilities in Docker images.
+    <h2>License</h2>
+    <p>This project is licensed under the MIT License.</p>
+</body>
+</html>
